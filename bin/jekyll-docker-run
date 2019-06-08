@@ -1,0 +1,21 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+    echo "Usage: ${0##*/} cmd [args...]"
+    exit 1
+fi
+
+DIR="${0%/*}"
+CACHE_DIR="$DIR/../.cache"
+
+mkdir -p "$CACHE_DIR"
+
+# Keep in-sync with version specified in Gemfile.
+JEKYLL_VERSION=3.8
+
+exec docker run --rm \
+    --net=host \
+    --volume="$PWD:/srv/jekyll" \
+    --volume="$CACHE_DIR/bundle:/usr/local/bundle" \
+    -it jekyll/jekyll:$JEKYLL_VERSION \
+    "$@"

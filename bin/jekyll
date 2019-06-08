@@ -1,0 +1,2 @@
+#!/bin/sh
+exec jekyll-docker-run "${0##*/}" "$@"
